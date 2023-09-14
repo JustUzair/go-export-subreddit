@@ -1,14 +1,41 @@
 package main
 
 import (
+	"encoding/json"
 	"errors"
 	"flag"
 	"fmt"
+	// "io"
 	"log"
+	"net/http"
 	"regexp"
 	"time"
 )
 
+type AppError error
+type ResponseData struct {
+	Data struct {
+		Name        string `json:"display_name"`
+		Description string `json:"public_description"`
+		HeaderTitle string `json:"header_title"`
+		Subscribers int    `json:"subscribers"`
+		UsersCount  int64  `json:"active_user_count"`
+		ImageUrl    string `json:"icon_img"`
+	} `json:"data"`
+}
+
+type SubredditValidatorStruct struct {
+	Data struct {
+		NSubs      int    `json:"subscribers"`
+		TypeOfSubR string `json:"subreddit_type"`
+	} `json:"data"`
+}
+
+func HandleError(err error) {
+	if err != nil {
+		log.Fatalln(err.Error())
+	}
+}
 func isEmailValid(email string) bool {
 	if len(email) <= 0 {
 		return false
@@ -35,7 +62,8 @@ func validateCMDFlags(
 	sendEmail bool,
 ) error {
 	if exportToFile && sendEmail {
-		return errors.New("you can either export the results to local filesystem or receive them as email")
+		sendEmail = true
+		exportToFile = false
 	}
 	if res := isValidCategory(category); !res {
 		return errors.New("category should be one of the following : new, top, hot, controversial or rising")
@@ -48,6 +76,27 @@ func validateCMDFlags(
 	}
 	return nil
 }
+
+func validateSubreddit(subreddit string) bool {
+	subredditUrl := fmt.Sprintf("http://www.reddit.com/r/%s/about.json", subreddit)
+	client := &http.Client{}
+	var responseData *SubredditValidatorStruct
+	req, err := http.NewRequest("GET", subredditUrl, nil)
+	HandleError(err)
+	res, err := client.Do(req)
+	HandleError(err)
+	defer res.Body.Close()
+	err = json.NewDecoder(res.Body).Decode(&responseData)
+	HandleError(err)
+	fmt.Printf("Data %v\n", responseData)
+	if responseData != nil && responseData.Data.NSubs != 0 && responseData.Data.TypeOfSubR == "public" {
+		return true
+	}
+
+	return false
+}
+
+// func getHttpClient() {}
 func main() {
 	var subredditName string
 	var exportPath string
@@ -78,5 +127,8 @@ func main() {
 		log.Fatalln(err.Error())
 		return
 	}
-	fmt.Println(email)
+	validSubR := validateSubreddit(subredditName)
+	if !validSubR {
+		HandleError(errors.New("the provided subreddit is either invalid or private"))
+	}
 }
