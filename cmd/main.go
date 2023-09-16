@@ -5,6 +5,11 @@ import (
 	"errors"
 	"flag"
 	"fmt"
+	"io"
+	"io/fs"
+	"os"
+	"path/filepath"
+
 	// "io"
 	"log"
 	"net/http"
@@ -12,7 +17,10 @@ import (
 	"time"
 )
 
-type AppError error
+type ExportData struct {
+	*ResponseData
+}
+
 type ResponseData struct {
 	Data struct {
 		Name        string `json:"display_name"`
@@ -54,7 +62,7 @@ func isValidCategory(category string) bool {
 }
 func validateCMDFlags(
 	subredditName string,
-	exportPath string,
+	filename string,
 	email string,
 	category string,
 	exportToFile bool,
@@ -96,18 +104,44 @@ func validateSubreddit(subreddit string) bool {
 	return false
 }
 
-// func getHttpClient() {}
+func getSubRedditInfo(subreddit string) ResponseData {
+	subredditUrl := fmt.Sprintf("http://www.reddit.com/r/%s/about.json", subreddit)
+	client := &http.Client{}
+	var responseData *ResponseData
+	req, err := http.NewRequest("GET", subredditUrl, nil)
+	HandleError(err)
+	res, err := client.Do(req)
+	HandleError(err)
+	defer res.Body.Close()
+	err = json.NewDecoder(res.Body).Decode(&responseData)
+	HandleError(err)
+	return *responseData
+}
+
+func saveDataToFile(path, filename string, permission fs.FileMode) *os.File {
+
+	// fmt.Printf("path : %v\n", path)
+	// fmt.Printf("filename : %v\n", filename)
+
+	// fmt.Printf("File path : %v", filepath.Join(".", path, filename))
+	HandleError(os.Mkdir(path, permission))
+	fmt.Println("here")
+	file, err := os.Create(filepath.Join(path, filename))
+	HandleError(err)
+	return file
+}
 func main() {
+
 	var subredditName string
-	var exportPath string
+	var filename string
 	var email string
 	var category string
 	var exportToFile bool
 	var limit int
 	var sendEmail bool
 
-	flag.StringVar(&subredditName, "subreddit", "AskReddit", "Name of the subreddit.")
-	flag.StringVar(&exportPath, "export_path", fmt.Sprintf("../exports/%v", time.Now().Format("2006-01-02 - 15:04:05")), "Path of file to write data to.")
+	flag.StringVar(&subredditName, "subreddit", "", "Name of the subreddit.")
+	flag.StringVar(&filename, "filename", "", "Path of file to write data to.")
 	flag.StringVar(&email, "email", "", "Receive zipped data to your email.")
 	flag.StringVar(&category, "category", "hot", "Sort content by category.")
 	flag.BoolVar(&exportToFile, "export_to_file", true, "Name of the subreddit.")
@@ -115,9 +149,10 @@ func main() {
 	flag.BoolVar(&sendEmail, "send_email", false, "Should data be sent through email")
 
 	flag.Parse()
+	filename = fmt.Sprintf("%v.json", filename)
 	if err := validateCMDFlags(
 		subredditName,
-		exportPath,
+		filename,
 		email,
 		category,
 		exportToFile,
@@ -127,8 +162,35 @@ func main() {
 		log.Fatalln(err.Error())
 		return
 	}
+	dir, err := os.Getwd()
+	HandleError(err)
+
+	var exportPath string = fmt.Sprintf("%v\\exports\\%v - %v", dir, subredditName, time.Now().Format("2006-01-02 15-04-05 PM"))
+
 	validSubR := validateSubreddit(subredditName)
 	if !validSubR {
 		HandleError(errors.New("the provided subreddit is either invalid or private"))
+	}
+	subredditInfo := getSubRedditInfo(subredditName)
+	fmt.Println(subredditInfo)
+
+	// get subreddit posts
+	//get subreddit post comments
+	exportData := &ExportData{
+		&subredditInfo,
+	}
+	jsonData, err := json.MarshalIndent(exportData, "", "  ")
+	HandleError(err)
+	if exportToFile && filename != "" {
+		file := saveDataToFile(exportPath, filename, 0777)
+		defer file.Close()
+
+		n, err := io.WriteString(file, string(jsonData))
+		HandleError(err)
+		fmt.Printf("Saved data for subreddit %s to path %s\nBytes: %d\n", subredditName, exportPath, n)
+	}
+	if sendEmail && email != "" {
+		// archive data
+		// send data to the email
 	}
 }
