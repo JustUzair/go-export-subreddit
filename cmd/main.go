@@ -36,14 +36,16 @@ type SubredditPostsData struct {
 	Data struct {
 		Children []struct {
 			Data struct {
-				SelfText      string      `json:"selftext"`
-				Author        string      `json:"author"`
-				Title         string      `json:"title"`
-				SubredditName string      `json:"subreddit_name_prefixed"`
-				UpVotes       int         `json:"ups"`
-				Created       json.Number `json:"created"`
-				NComments     int         `json:"num_comments"`
-				PostUrl       string      `json:"url"`
+				SelfText      string        `json:"selftext"`
+				Author        string        `json:"author"`
+				Title         string        `json:"title"`
+				SubredditName string        `json:"subreddit_name_prefixed"`
+				UpVotes       int           `json:"ups"`
+				Created       json.Number   `json:"created"`
+				NComments     int           `json:"num_comments"`
+				PostUrl       string        `json:"url"`
+				Permalink     string        `json:"permalink"`
+				Comments      []interface{} `json:"comments"`
 			} `json:"data"`
 		} `json:"children"`
 	} `json:"data"`
@@ -136,7 +138,7 @@ func getSubRedditInfo(subreddit string) *SubredditAboutData {
 	return responseData
 }
 
-func getSubRedditPosts(subreddit, category string, limit int) *SubredditPostsData {
+func getSubRedditPosts(subreddit, category string, limit int, exportComments bool) *SubredditPostsData {
 	subredditUrl := fmt.Sprintf("http://www.reddit.com/r/%s/%s.json?limit=%d", subreddit, category, limit)
 	client := &http.Client{}
 	var responseData *SubredditPostsData
@@ -147,6 +149,22 @@ func getSubRedditPosts(subreddit, category string, limit int) *SubredditPostsDat
 	defer res.Body.Close()
 	err = json.NewDecoder(res.Body).Decode(&responseData)
 	HandleError(err)
+	if exportComments {
+		for i := range responseData.Data.Children {
+			permalink := responseData.Data.Children[i].Data.Permalink
+			commentsURL := fmt.Sprintf("http://reddit.com%v.json", permalink)
+			log.Println(commentsURL)
+			req, err := http.NewRequest("GET", commentsURL, nil)
+			HandleError(err)
+			res, err := client.Do(req)
+			HandleError(err)
+			defer res.Body.Close()
+			err = json.NewDecoder(res.Body).Decode(&responseData.Data.Children[i].Data.Comments)
+			HandleError(err)
+
+		}
+
+	}
 	return responseData
 }
 
@@ -172,14 +190,16 @@ func main() {
 	var limit int
 	var sendEmail bool
 	var exportPosts bool
+	var exportComments bool
 	flag.StringVar(&subredditName, "subreddit", "", "Name of the subreddit.")
 	flag.StringVar(&filename, "filename", "", "Path of file to write data to.")
 	flag.StringVar(&email, "email", "", "Receive zipped data to your email.")
 	flag.StringVar(&category, "category", "hot", "Sort content by category.")
 	flag.BoolVar(&exportToFile, "export_to_file", true, "Name of the subreddit.")
-	flag.IntVar(&limit, "limit", 1, "No of posts to retrieve.")
+	flag.IntVar(&limit, "posts_limit", 1, "No of posts to retrieve.")
 	flag.BoolVar(&sendEmail, "send_email", false, "Should data be sent through email")
 	flag.BoolVar(&exportPosts, "export_posts", false, "Should posts data be fetched")
+	flag.BoolVar(&exportComments, "export_comments", false, "Should comments data be fetched")
 
 	flag.Parse()
 	filename = fmt.Sprintf("%v.json", filename)
@@ -205,7 +225,7 @@ func main() {
 		HandleError(errors.New("the provided subreddit is either invalid or private"))
 	}
 	subredditInfo := getSubRedditInfo(subredditName)
-	subredditPostsInfo := getSubRedditPosts(subredditName, category, limit)
+	subredditPostsInfo := getSubRedditPosts(subredditName, category, limit, exportComments)
 	// fmt.Println(subredditInfo)
 
 	// todo get subreddit post comments
