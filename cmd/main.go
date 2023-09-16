@@ -39,15 +39,17 @@ type SubredditPostsData struct {
 	Data struct {
 		Children []struct {
 			Data struct {
-				SelfText      string      `json:"selftext"`
-				Author        string      `json:"author"`
-				Title         string      `json:"title"`
-				SubredditName string      `json:"subreddit_name_prefixed"`
-				UpVotes       int         `json:"ups"`
-				Created       json.Number `json:"created"`
-				NComments     int         `json:"num_comments"`
-				PostUrl       string      `json:"url"`
-				Permalink     string      `json:"permalink"`
+				PostId        string        `json:"id"`
+				SelfText      string        `json:"selftext"`
+				Author        string        `json:"author"`
+				Title         string        `json:"title"`
+				SubredditName string        `json:"subreddit_name_prefixed"`
+				UpVotes       int           `json:"ups"`
+				Created       json.Number   `json:"created"`
+				NComments     int           `json:"num_comments"`
+				PostUrl       string        `json:"url"`
+				Permalink     string        `json:"permalink"`
+				Comments      []interface{} `json:"comments"`
 			} `json:"data"`
 		} `json:"children"`
 	} `json:"data"`
@@ -195,16 +197,33 @@ func getSubRedditPosts(subreddit, category string, limit int, exportComments boo
 				res, err := client.Do(req)
 				HandleError(err)
 				defer res.Body.Close()
-				var comments []interface{}
+				// var comments []interface{}
+				var comments []struct {
+					Data struct {
+						Children []struct {
+							Data struct {
+								Permalink  string `json:"permalink"`
+								Body       string `json:"body"`
+								PostId     string `json:"id"`
+								CommentUrl string `json:"url"`
+							}
+						} `json:"children"`
+					} `json:"data"`
+				}
 				err = json.NewDecoder(res.Body).Decode(&comments)
-				HandleError(err)
-				file := saveDataToFile(exportPath, fmt.Sprintf("comments - %d.json", i+1), 0777)
-				commentJSONData, err := json.MarshalIndent(comments, "", "  ")
+				responseData.Data.Children[i].Data.Comments = append(responseData.Data.Children[i].Data.Comments, comments)
 				HandleError(err)
 
-				n, err := io.WriteString(file, string(commentJSONData))
-				HandleError(err)
-				fmt.Printf("Saved data for subreddit %s's comment-%d to path %s\nBytes: %d\n", subreddit, i+1, exportPath, n)
+				// ------------- Logic to export comments to individual files -------------
+				// file := saveDataToFile(exportPath, fmt.Sprintf("post-author-%s comments - %d.json", responseData.Data.Children[i].Data.Author, i+1), 0777)
+				// commentJSONData, err := json.MarshalIndent(comments, "", "  ")
+				// HandleError(err)
+
+				// n, err := io.WriteString(file, string(commentJSONData))
+				// HandleError(err)
+				// fmt.Printf("Saved data for subreddit %s's comment-%d to path %s\nBytes: %d\n", subreddit, i+1, exportPath, n)
+				// ------------- --------------------------------------------- -------------
+
 			}()
 
 			wg.Wait()
@@ -221,6 +240,7 @@ func saveDataToFile(path, filename string, permission fs.FileMode) *os.File {
 	return file
 }
 func main() {
+	var subredditPostsInfo *SubredditPostsData
 
 	var subredditName string
 	var filename string
@@ -265,10 +285,9 @@ func main() {
 		HandleError(errors.New("the provided subreddit is either invalid or private"))
 	}
 	subredditInfo := getSubRedditInfo(subredditName)
-	subredditPostsInfo := getSubRedditPosts(subredditName, category, limit, exportComments, exportPath)
-	// fmt.Println(subredditInfo)
-
-	// todo get subreddit post comments
+	if exportPosts {
+		subredditPostsInfo = getSubRedditPosts(subredditName, category, limit, exportComments, exportPath)
+	}
 
 	exportData := &ExportData{
 		subredditInfo,
