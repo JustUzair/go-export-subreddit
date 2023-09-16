@@ -7,28 +7,45 @@ import (
 	"fmt"
 	"io"
 	"io/fs"
-	"os"
-	"path/filepath"
-
-	// "io"
 	"log"
 	"net/http"
+	"os"
+	"path/filepath"
 	"regexp"
 	"time"
 )
 
 type ExportData struct {
-	*ResponseData
+	*SubredditAboutData `json:"about"`
+	*SubredditPostsData `json:"posts"`
 }
 
-type ResponseData struct {
+type SubredditAboutData struct {
 	Data struct {
-		Name        string `json:"display_name"`
-		Description string `json:"public_description"`
-		HeaderTitle string `json:"header_title"`
-		Subscribers int    `json:"subscribers"`
-		UsersCount  int64  `json:"active_user_count"`
-		ImageUrl    string `json:"icon_img"`
+		Name         string `json:"display_name"`
+		Description  string `json:"public_description"`
+		HeaderTitle  string `json:"header_title"`
+		Subscribers  int    `json:"subscribers"`
+		UsersCount   int64  `json:"active_user_count"`
+		ImageUrl     string `json:"icon_img"`
+		HeaderImgUrl string `json:"header_img"`
+	} `json:"data"`
+}
+
+type SubredditPostsData struct {
+	Data struct {
+		Children []struct {
+			Data struct {
+				SelfText      string      `json:"selftext"`
+				Author        string      `json:"author"`
+				Title         string      `json:"title"`
+				SubredditName string      `json:"subreddit_name_prefixed"`
+				UpVotes       int         `json:"ups"`
+				Created       json.Number `json:"created"`
+				NComments     int         `json:"num_comments"`
+				PostUrl       string      `json:"url"`
+			} `json:"data"`
+		} `json:"children"`
 	} `json:"data"`
 }
 
@@ -68,6 +85,7 @@ func validateCMDFlags(
 	exportToFile bool,
 	limit int,
 	sendEmail bool,
+	exportPosts bool,
 ) error {
 	if exportToFile && sendEmail {
 		sendEmail = true
@@ -104,10 +122,10 @@ func validateSubreddit(subreddit string) bool {
 	return false
 }
 
-func getSubRedditInfo(subreddit string) ResponseData {
+func getSubRedditInfo(subreddit string) *SubredditAboutData {
 	subredditUrl := fmt.Sprintf("http://www.reddit.com/r/%s/about.json", subreddit)
 	client := &http.Client{}
-	var responseData *ResponseData
+	var responseData *SubredditAboutData
 	req, err := http.NewRequest("GET", subredditUrl, nil)
 	HandleError(err)
 	res, err := client.Do(req)
@@ -115,7 +133,21 @@ func getSubRedditInfo(subreddit string) ResponseData {
 	defer res.Body.Close()
 	err = json.NewDecoder(res.Body).Decode(&responseData)
 	HandleError(err)
-	return *responseData
+	return responseData
+}
+
+func getSubRedditPosts(subreddit, category string, limit int) *SubredditPostsData {
+	subredditUrl := fmt.Sprintf("http://www.reddit.com/r/%s/%s.json?limit=%d", subreddit, category, limit)
+	client := &http.Client{}
+	var responseData *SubredditPostsData
+	req, err := http.NewRequest("GET", subredditUrl, nil)
+	HandleError(err)
+	res, err := client.Do(req)
+	HandleError(err)
+	defer res.Body.Close()
+	err = json.NewDecoder(res.Body).Decode(&responseData)
+	HandleError(err)
+	return responseData
 }
 
 func saveDataToFile(path, filename string, permission fs.FileMode) *os.File {
@@ -139,7 +171,7 @@ func main() {
 	var exportToFile bool
 	var limit int
 	var sendEmail bool
-
+	var exportPosts bool
 	flag.StringVar(&subredditName, "subreddit", "", "Name of the subreddit.")
 	flag.StringVar(&filename, "filename", "", "Path of file to write data to.")
 	flag.StringVar(&email, "email", "", "Receive zipped data to your email.")
@@ -147,6 +179,7 @@ func main() {
 	flag.BoolVar(&exportToFile, "export_to_file", true, "Name of the subreddit.")
 	flag.IntVar(&limit, "limit", 1, "No of posts to retrieve.")
 	flag.BoolVar(&sendEmail, "send_email", false, "Should data be sent through email")
+	flag.BoolVar(&exportPosts, "export_posts", false, "Should posts data be fetched")
 
 	flag.Parse()
 	filename = fmt.Sprintf("%v.json", filename)
@@ -158,13 +191,13 @@ func main() {
 		exportToFile,
 		limit,
 		sendEmail,
+		exportPosts,
 	); err != nil {
 		log.Fatalln(err.Error())
 		return
 	}
 	dir, err := os.Getwd()
 	HandleError(err)
-
 	var exportPath string = fmt.Sprintf("%v\\exports\\%v - %v", dir, subredditName, time.Now().Format("2006-01-02 15-04-05 PM"))
 
 	validSubR := validateSubreddit(subredditName)
@@ -172,13 +205,16 @@ func main() {
 		HandleError(errors.New("the provided subreddit is either invalid or private"))
 	}
 	subredditInfo := getSubRedditInfo(subredditName)
-	fmt.Println(subredditInfo)
+	subredditPostsInfo := getSubRedditPosts(subredditName, category, limit)
+	// fmt.Println(subredditInfo)
 
-	// get subreddit posts
-	//get subreddit post comments
+	// todo get subreddit post comments
+
 	exportData := &ExportData{
-		&subredditInfo,
+		subredditInfo,
+		subredditPostsInfo,
 	}
+
 	jsonData, err := json.MarshalIndent(exportData, "", "  ")
 	HandleError(err)
 	if exportToFile && filename != "" {
