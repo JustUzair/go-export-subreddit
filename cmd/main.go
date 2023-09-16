@@ -69,8 +69,8 @@ func isEmailValid(email string) bool {
 	return emailRegex.MatchString(email)
 }
 func isValidCategory(category string) bool {
-	var categories [5]string = [5]string{"new", "top", "hot", "rising", "controversial"}
-	for i := 1; i < 5; i++ {
+	var categories [5]string = [5]string{"new", "top", "hot", "rising"}
+	for i := 0; i < 5; i++ {
 		if categories[i] == category {
 			return true
 		}

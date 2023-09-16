@@ -1,0 +1,139 @@
+{
+  "about": {
+    "data": {
+      "display_name": "golang",
+      "public_description": "Ask questions and post articles about the Go programming language and related tools, events etc.",
+      "header_title": "",
+      "subscribers": 217732,
+      "active_user_count": 474,
+      "icon_img": "",
+      "header_img": "https://b.thumbs.redditmedia.com/7BDtSXbohQaPFuaa6oCA5HtE53Flgld6rj3G7-TavDs.png"
+    }
+  },
+  "posts": {
+    "data": {
+      "children": [
+        {
+          "data": {
+            "selftext": "Hello everyone. I've been writing Go for over 1.5 years now (Non professionally. For my side projects only). Ive started reading \"writing an interpreter in Go\". Im writing code along with reading. Im almost at the bottom of parser. I understood Lexer, Tokenizer, AST like it was nothing. But parser... oh man I don't understand sh*t. The author did a great job explaining everything. But when I get everything around my head, wake up the next day and boom, I forgot everything. Im not sure if its because the parser part is hardest or im just way too dumb to understand. Im thinking about finishing the book, playing with the codebase for few days trying to implement new features and revise the parser part. I really love the book and want to get the best out of it. Didn't touch evaluation part yet, so im not sure if its even harder or not.\n\nNote: I have just finished high school and didn't get into college yet so I had no knowledge over how interpreter works in general.",
+            "author": "KledMainSG",
+            "title": "Is Writing an interpreter with go hard or im just dumb. Need motivation.",
+            "subreddit_name_prefixed": "r/golang",
+            "ups": 34,
+            "created": 1694808893.0,
+            "num_comments": 22,
+            "url": "https://www.reddit.com/r/golang/comments/16jnl1f/is_writing_an_interpreter_with_go_hard_or_im_just/"
+          }
+        },
+        {
+          "data": {
+            "selftext": "I'm working on a task that involves selecting nearly 1024 rows of data. These rows need to be unmarshalled into a struct (to cast to datatype), and the challenge is that I have to build this struct dynamically. Currently, I'm using the `https://github.com/Ompluscator/dynamic-struct` library for this purpose. I iterate through the rows and use `structscan` to populate each dynamic struct. However, I'm encountering a significant issue with high heap memory usage when I try to marshal this struct into JSON. I'm seeking advice on how to optimize this process.",
+            "author": "thikee1",
+            "title": "How do I dynamically build a struct in runtime to use sqlx.StructScan almost 1k rows.",
+            "subreddit_name_prefixed": "r/golang",
+            "ups": 3,
+            "created": 1694838193.0,
+            "num_comments": 5,
+            "url": "https://www.reddit.com/r/golang/comments/16jy3xe/how_do_i_dynamically_build_a_struct_in_runtime_to/"
+          }
+        },
+        {
+          "data": {
+            "selftext": "",
+            "author": "melze",
+            "title": "Solving the Expression Problem in Go",
+            "subreddit_name_prefixed": "r/golang",
+            "ups": 4,
+            "created": 1694834718.0,
+            "num_comments": 1,
+            "url": "https://www.tzcl.me/posts/expression-problem/"
+          }
+        },
+        {
+          "data": {
+            "selftext": "Do you use non standard build systems for Golang compilation? Why do you use them? Why the go command doesn't fit your purpose?\n\nP.S. I have heard about make, and bazel, but it would be great to hear from users about them, and others, and most importantly what's not suitable with the default build system.",
+            "author": "Tooltitude",
+            "title": "Which go build systems do you use?",
+            "subreddit_name_prefixed": "r/golang",
+            "ups": 20,
+            "created": 1694792400.0,
+            "num_comments": 47,
+            "url": "https://www.reddit.com/r/golang/comments/16jgqoo/which_go_build_systems_do_you_use/"
+          }
+        },
+        {
+          "data": {
+            "selftext": "I'm attempting to contribute to an open-source organization, and I've come across a method called Syscall.Kill in their codebase. However, when I try to use it on my Windows system, it throws an error, stating 'undefined: syscall.Kill.' After some investigation, I've learned that this method doesn't work on Windows.\n\nI'd like to ask for alternatives or suggestions on how to achieve similar functionality on a Windows platform. Your insights and recommendations would be greatly appreciated! Thank you in advance.",
+            "author": "loadervibes",
+            "title": "What are the possible alternatives for Syscall.Kill for Windows?",
+            "subreddit_name_prefixed": "r/golang",
+            "ups": 1,
+            "created": 1694848712.0,
+            "num_comments": 0,
+            "url": "https://www.reddit.com/r/golang/comments/16k10ma/what_are_the_possible_alternatives_for/"
+          }
+        },
+        {
+          "data": {
+            "selftext": "While debugging, when I am commenting some stuff, go automatically removes their imports only to go back and include them later.\n\nWhy is go like this? How can I avoid rewriting imports again and again?",
+            "author": "Boring_Copy_8127",
+            "title": "is GO always like this or any way out?",
+            "subreddit_name_prefixed": "r/golang",
+            "ups": 0,
+            "created": 1694848210.0,
+            "num_comments": 2,
+            "url": "https://www.reddit.com/r/golang/comments/16k0vri/is_go_always_like_this_or_any_way_out/"
+          }
+        },
+        {
+          "data": {
+            "selftext": "Hello everyone!\n\nI am working on the authentication system for a web application right now. The app is written in Golang, uses PostgreSQL and will be hosted on AWS. For session management, I would like to use gorilla. The webapp will have quite a few functions that will only work once the user is logged in.\n\nThis is the part I have planned out so far: User sends login request to API =\u0026gt; API forwards request to login lambda function=\u0026gt; lambda function checks user/password with DB =\u0026gt; Depending on DB result login is successful or not\n\nAnd from here I am not sure on how to move on regarding sessions, as I found different solutions online. These are the scenarios I could think off:\n\n1. Login lambda function saves session in same Postgresql instance as login information and returns session cookie to API =\u0026gt; API forwards cookie to user; any future requests to the API that require it to call a lambda function, where the lambda function needs a session, will make the lambda function open a db connection to get the session\n2. Same as 1., but login function only tells API that login was successful and API creates the session and returns the cookie directly to the user; the API then handles anything session-related (i.e. someone that is already logged in tries to login =\u0026gt; API gets session, sees user is logged in and does not forward the request to login lambda function); in this scenario, the API could also store sessions locally or in PostgreSQL\n\nWhich scenario would you see as the better solution and why? Or is there another scenario I did not think of that would be more optimal? \nWould it make sense to kind of mix them? Have a local cookie storage on the API to store sessions from unauthenticated users to prevent unnecessary traffic to lambda endpoints that require a session from users without a session?\nAny input is appreciated \\^\\^",
+            "author": "torpcodes",
+            "title": "Best way to handle sessions in a web application?",
+            "subreddit_name_prefixed": "r/golang",
+            "ups": 1,
+            "created": 1694844771.0,
+            "num_comments": 6,
+            "url": "https://www.reddit.com/r/golang/comments/16jzyjn/best_way_to_handle_sessions_in_a_web_application/"
+          }
+        },
+        {
+          "data": {
+            "selftext": "On this page in their docs https://echo.labstack.com/docs/templates why do I have to implement that interface?\n\nAnd then the \"hello\" is the name of the template and \"World\" is the data I'm passing in.",
+            "author": "laneherby",
+            "title": "New to Go wanting to use with HTMX, I was going to use echo for framework, but I'm kind of confused on their docs about html templates.",
+            "subreddit_name_prefixed": "r/golang",
+            "ups": 1,
+            "created": 1694842878.0,
+            "num_comments": 0,
+            "url": "https://www.reddit.com/r/golang/comments/16jzfml/new_to_go_wanting_to_use_with_htmx_i_was_going_to/"
+          }
+        },
+        {
+          "data": {
+            "selftext": "",
+            "author": "efronl",
+            "title": "Backend from the Beginning: An (in)complete guide to backend development in Go.",
+            "subreddit_name_prefixed": "r/golang",
+            "ups": 140,
+            "created": 1694743492.0,
+            "num_comments": 38,
+            "url": "https://eblog.fly.dev/backendbasics.html"
+          }
+        },
+        {
+          "data": {
+            "selftext": "So I have seen on this sub that the database layer should not be built using ORMs. Also I have heard that it’s bad so I’ve decided to build a project which won’t use ORMs, but pure SQL will be written in order to CRUD the database.\n\nI’ve started to think about it and I’ve figured that I would need a ‘somethingstore’ or ‘somethingrepo’ package (you can comment on the name of the package too) that would be used to describe an interface towards the DB and create an Instrumented instance which would then point to a cached layer or the ordinary instance next to the database layer.\n\nThe interface would have Update, Create and Delete methods which I don’t find difficult to implement since there aren’t that many variations of them.\n\nThe problem I am having is with the Get methods which can have many variations. I either have a choice to implement FindUserWithXYZ attributes which would then fetch the user with x, y and z attributes which I don’t find too appealing since It can get bloated pretty quickly.\n\nOther option is to have some kind of a query builder which would take an Options structure and then build an SQL query and retrieve the data from the DB. But in this case I have to take care of the query builder because I can add fields to the DB and not update the Options structure, which would be okay since the 0 value of a bool is false, so the unnecessary data won’t be retrieved.\n\nOn the other side I would have to propagate the Options structure to the service level so the other services can specify what kind of data they want.\n\nMaybe I am taking the wrong approach right from the start. Can you help me figure this out?\n\nEdit: typo",
+            "author": "gucci_phantom",
+            "title": "Database interface",
+            "subreddit_name_prefixed": "r/golang",
+            "ups": 8,
+            "created": 1694801054.0,
+            "num_comments": 9,
+            "url": "https://www.reddit.com/r/golang/comments/16jkcyj/database_interface/"
+          }
+        }
+      ]
+    }
+  }
+}
