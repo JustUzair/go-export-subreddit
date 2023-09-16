@@ -1,0 +1,185 @@
+[
+  {
+    "data": {
+      "after": null,
+      "before": null,
+      "children": [
+        {
+          "data": {
+            "all_awardings": [],
+            "allow_live_comments": false,
+            "approved_at_utc": null,
+            "approved_by": null,
+            "archived": false,
+            "author": "rueian00",
+            "author_flair_background_color": null,
+            "author_flair_css_class": null,
+            "author_flair_richtext": [],
+            "author_flair_template_id": null,
+            "author_flair_text": null,
+            "author_flair_text_color": null,
+            "author_flair_type": "text",
+            "author_fullname": "t2_hgena8ph",
+            "author_is_blocked": false,
+            "author_patreon_flair": false,
+            "author_premium": false,
+            "awarders": [],
+            "banned_at_utc": null,
+            "banned_by": null,
+            "can_gild": false,
+            "can_mod_post": false,
+            "category": null,
+            "clicked": false,
+            "content_categories": null,
+            "contest_mode": false,
+            "created": 1694869637,
+            "created_utc": 1694869637,
+            "discussion_type": null,
+            "distinguished": null,
+            "domain": "self.golang",
+            "downs": 0,
+            "edited": false,
+            "gilded": 0,
+            "gildings": {},
+            "hidden": false,
+            "hide_score": false,
+            "id": "16k75nx",
+            "is_created_from_ads_ui": false,
+            "is_crosspostable": false,
+            "is_meta": false,
+            "is_original_content": false,
+            "is_reddit_media_domain": false,
+            "is_robot_indexable": true,
+            "is_self": true,
+            "is_video": false,
+            "likes": null,
+            "link_flair_background_color": "#7193ff",
+            "link_flair_css_class": "",
+            "link_flair_richtext": [],
+            "link_flair_template_id": "8e5426fe-a6bd-11ec-a6a4-1ed4e247a1dd",
+            "link_flair_text": "show \u0026amp; tell",
+            "link_flair_text_color": "light",
+            "link_flair_type": "text",
+            "locked": false,
+            "media": null,
+            "media_embed": {},
+            "media_only": false,
+            "mod_note": null,
+            "mod_reason_by": null,
+            "mod_reason_title": null,
+            "mod_reports": [],
+            "name": "t3_16k75nx",
+            "no_follow": false,
+            "num_comments": 0,
+            "num_crossposts": 0,
+            "num_duplicates": 0,
+            "num_reports": null,
+            "over_18": false,
+            "parent_whitelist_status": "all_ads",
+            "permalink": "/r/golang/comments/16k75nx/rueidis_v1018_improving_developer_experience_in/",
+            "pinned": false,
+            "post_hint": "self",
+            "preview": {
+              "enabled": false,
+              "images": [
+                {
+                  "id": "XY0L3110cK8_W_Q4R9NbkVBvx2wMH-edb8eKITV-Rf8",
+                  "resolutions": [
+                    {
+                      "height": 54,
+                      "url": "https://external-preview.redd.it/5xfNuW4WzBqlcP3vLzuo1_m43nfocnuNSqBaZ5oHloo.jpg?width=108\u0026amp;crop=smart\u0026amp;auto=webp\u0026amp;s=d0b8760a9f0825d2741d4360b64c07f79fdf609d",
+                      "width": 108
+                    },
+                    {
+                      "height": 108,
+                      "url": "https://external-preview.redd.it/5xfNuW4WzBqlcP3vLzuo1_m43nfocnuNSqBaZ5oHloo.jpg?width=216\u0026amp;crop=smart\u0026amp;auto=webp\u0026amp;s=a5a653704dec4d7549a5b389a9c3a8cb36212cb4",
+                      "width": 216
+                    },
+                    {
+                      "height": 160,
+                      "url": "https://external-preview.redd.it/5xfNuW4WzBqlcP3vLzuo1_m43nfocnuNSqBaZ5oHloo.jpg?width=320\u0026amp;crop=smart\u0026amp;auto=webp\u0026amp;s=1dca8b8b35e70f1e602a297f4f96663322855028",
+                      "width": 320
+                    },
+                    {
+                      "height": 320,
+                      "url": "https://external-preview.redd.it/5xfNuW4WzBqlcP3vLzuo1_m43nfocnuNSqBaZ5oHloo.jpg?width=640\u0026amp;crop=smart\u0026amp;auto=webp\u0026amp;s=a1ffc4012a1235cea2151164ed45e30b7849f37f",
+                      "width": 640
+                    },
+                    {
+                      "height": 480,
+                      "url": "https://external-preview.redd.it/5xfNuW4WzBqlcP3vLzuo1_m43nfocnuNSqBaZ5oHloo.jpg?width=960\u0026amp;crop=smart\u0026amp;auto=webp\u0026amp;s=ff4d9e009b12d0982a28d76d4efb7ba8521425fb",
+                      "width": 960
+                    },
+                    {
+                      "height": 540,
+                      "url": "https://external-preview.redd.it/5xfNuW4WzBqlcP3vLzuo1_m43nfocnuNSqBaZ5oHloo.jpg?width=1080\u0026amp;crop=smart\u0026amp;auto=webp\u0026amp;s=a9359b62fca40fdef8b9561fd3ec7baacfb299ec",
+                      "width": 1080
+                    }
+                  ],
+                  "source": {
+                    "height": 600,
+                    "url": "https://external-preview.redd.it/5xfNuW4WzBqlcP3vLzuo1_m43nfocnuNSqBaZ5oHloo.jpg?auto=webp\u0026amp;s=d9f3ffa1110455001fa9d76f3c2a21a78b244f9b",
+                    "width": 1200
+                  },
+                  "variants": {}
+                }
+              ]
+            },
+            "pwls": 6,
+            "quarantine": false,
+            "removal_reason": null,
+            "removed_by": null,
+            "removed_by_category": null,
+            "report_reasons": null,
+            "saved": false,
+            "score": 3,
+            "secure_media": null,
+            "secure_media_embed": {},
+            "selftext": "https://github.com/redis/rueidis/releases/tag/v1.0.18\n\nrueidis is an official Redis client library featured with low latencies by client-side caching and high throughputs by auto pipelining.\n\nIn the latest v1.0.18 release, we have fixed a year-long developer experience issue that makes the command builder of rueidis awkward in vscode. Now, vscode developers can fully enjoy the auto-completion of command builder as well!",
+            "selftext_html": "\u0026lt;!-- SC_OFF --\u0026gt;\u0026lt;div class=\"md\"\u0026gt;\u0026lt;p\u0026gt;\u0026lt;a href=\"https://github.com/redis/rueidis/releases/tag/v1.0.18\"\u0026gt;https://github.com/redis/rueidis/releases/tag/v1.0.18\u0026lt;/a\u0026gt;\u0026lt;/p\u0026gt;\n\n\u0026lt;p\u0026gt;rueidis is an official Redis client library featured with low latencies by client-side caching and high throughputs by auto pipelining.\u0026lt;/p\u0026gt;\n\n\u0026lt;p\u0026gt;In the latest v1.0.18 release, we have fixed a year-long developer experience issue that makes the command builder of rueidis awkward in vscode. Now, vscode developers can fully enjoy the auto-completion of command builder as well!\u0026lt;/p\u0026gt;\n\u0026lt;/div\u0026gt;\u0026lt;!-- SC_ON --\u0026gt;",
+            "send_replies": true,
+            "spoiler": false,
+            "stickied": false,
+            "subreddit": "golang",
+            "subreddit_id": "t5_2rc7j",
+            "subreddit_name_prefixed": "r/golang",
+            "subreddit_subscribers": 217770,
+            "subreddit_type": "public",
+            "suggested_sort": "confidence",
+            "thumbnail": "self",
+            "thumbnail_height": null,
+            "thumbnail_width": null,
+            "title": "rueidis v1.0.18: improving developer experience in vscode",
+            "top_awarded_type": null,
+            "total_awards_received": 0,
+            "treatment_tags": [],
+            "ups": 3,
+            "upvote_ratio": 1,
+            "url": "https://www.reddit.com/r/golang/comments/16k75nx/rueidis_v1018_improving_developer_experience_in/",
+            "user_reports": [],
+            "view_count": null,
+            "visited": false,
+            "whitelist_status": "all_ads",
+            "wls": 6
+          },
+          "kind": "t3"
+        }
+      ],
+      "dist": 1,
+      "geo_filter": "",
+      "modhash": ""
+    },
+    "kind": "Listing"
+  },
+  {
+    "data": {
+      "after": null,
+      "before": null,
+      "children": [],
+      "dist": null,
+      "geo_filter": "",
+      "modhash": ""
+    },
+    "kind": "Listing"
+  }
+]

@@ -12,8 +12,11 @@ import (
 	"os"
 	"path/filepath"
 	"regexp"
+	"sync"
 	"time"
 )
+
+var wg sync.WaitGroup
 
 type ExportData struct {
 	*SubredditAboutData `json:"about"`
@@ -36,16 +39,15 @@ type SubredditPostsData struct {
 	Data struct {
 		Children []struct {
 			Data struct {
-				SelfText      string        `json:"selftext"`
-				Author        string        `json:"author"`
-				Title         string        `json:"title"`
-				SubredditName string        `json:"subreddit_name_prefixed"`
-				UpVotes       int           `json:"ups"`
-				Created       json.Number   `json:"created"`
-				NComments     int           `json:"num_comments"`
-				PostUrl       string        `json:"url"`
-				Permalink     string        `json:"permalink"`
-				Comments      []interface{} `json:"comments"`
+				SelfText      string      `json:"selftext"`
+				Author        string      `json:"author"`
+				Title         string      `json:"title"`
+				SubredditName string      `json:"subreddit_name_prefixed"`
+				UpVotes       int         `json:"ups"`
+				Created       json.Number `json:"created"`
+				NComments     int         `json:"num_comments"`
+				PostUrl       string      `json:"url"`
+				Permalink     string      `json:"permalink"`
 			} `json:"data"`
 		} `json:"children"`
 	} `json:"data"`
@@ -130,6 +132,21 @@ func getSubRedditInfo(subreddit string) *SubredditAboutData {
 	var responseData *SubredditAboutData
 	req, err := http.NewRequest("GET", subredditUrl, nil)
 	HandleError(err)
+
+	req.Header.Set("authority", "www.reddit.com")
+	req.Header.Set("pragma", "no-cache")
+	req.Header.Set("cache-control", "no-cache")
+	req.Header.Set("sec-ch-ua", `"Google Chrome";v="89", "Chromium";v="89", ";Not A Brand";v="99"`)
+	req.Header.Set("sec-ch-ua-mobile", "?0")
+	req.Header.Set("upgrade-insecure-requests", "1")
+	req.Header.Set("user-agent", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.90 Safari/537.36")
+	req.Header.Set("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
+	req.Header.Set("dnt", "1")
+	req.Header.Set("sec-fetch-site", "none")
+	req.Header.Set("sec-fetch-mode", "navigate")
+	req.Header.Set("sec-fetch-user", "?1")
+	req.Header.Set("sec-fetch-dest", "document")
+	req.Header.Set("accept-language", "en-GB,en;q=0.9")
 	res, err := client.Do(req)
 	HandleError(err)
 	defer res.Body.Close()
@@ -138,11 +155,26 @@ func getSubRedditInfo(subreddit string) *SubredditAboutData {
 	return responseData
 }
 
-func getSubRedditPosts(subreddit, category string, limit int, exportComments bool) *SubredditPostsData {
+func getSubRedditPosts(subreddit, category string, limit int, exportComments bool, exportPath string) *SubredditPostsData {
 	subredditUrl := fmt.Sprintf("http://www.reddit.com/r/%s/%s.json?limit=%d", subreddit, category, limit)
 	client := &http.Client{}
 	var responseData *SubredditPostsData
+
 	req, err := http.NewRequest("GET", subredditUrl, nil)
+	req.Header.Set("authority", "www.reddit.com")
+	req.Header.Set("pragma", "no-cache")
+	req.Header.Set("cache-control", "no-cache")
+	req.Header.Set("sec-ch-ua", `"Google Chrome";v="89", "Chromium";v="89", ";Not A Brand";v="99"`)
+	req.Header.Set("sec-ch-ua-mobile", "?0")
+	req.Header.Set("upgrade-insecure-requests", "1")
+	req.Header.Set("user-agent", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.90 Safari/537.36")
+	req.Header.Set("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
+	req.Header.Set("dnt", "1")
+	req.Header.Set("sec-fetch-site", "none")
+	req.Header.Set("sec-fetch-mode", "navigate")
+	req.Header.Set("sec-fetch-user", "?1")
+	req.Header.Set("sec-fetch-dest", "document")
+	req.Header.Set("accept-language", "en-GB,en;q=0.9")
 	HandleError(err)
 	res, err := client.Do(req)
 	HandleError(err)
@@ -151,17 +183,31 @@ func getSubRedditPosts(subreddit, category string, limit int, exportComments boo
 	HandleError(err)
 	if exportComments {
 		for i := range responseData.Data.Children {
-			permalink := responseData.Data.Children[i].Data.Permalink
-			commentsURL := fmt.Sprintf("http://reddit.com%v.json", permalink)
-			log.Println(commentsURL)
-			req, err := http.NewRequest("GET", commentsURL, nil)
-			HandleError(err)
-			res, err := client.Do(req)
-			HandleError(err)
-			defer res.Body.Close()
-			err = json.NewDecoder(res.Body).Decode(&responseData.Data.Children[i].Data.Comments)
-			HandleError(err)
+			wg.Add(1)
+			i := i
+			go func() {
+				defer wg.Done()
+				permalink := responseData.Data.Children[i].Data.Permalink
+				commentsURL := fmt.Sprintf("http://reddit.com%v.json", permalink)
+				log.Println(commentsURL)
+				req, err := http.NewRequest("GET", commentsURL, nil)
+				HandleError(err)
+				res, err := client.Do(req)
+				HandleError(err)
+				defer res.Body.Close()
+				var comments []interface{}
+				err = json.NewDecoder(res.Body).Decode(&comments)
+				HandleError(err)
+				file := saveDataToFile(exportPath, fmt.Sprintf("comments - %d.json", i+1), 0777)
+				commentJSONData, err := json.MarshalIndent(comments, "", "  ")
+				HandleError(err)
 
+				n, err := io.WriteString(file, string(commentJSONData))
+				HandleError(err)
+				fmt.Printf("Saved data for subreddit %s's comment-%d to path %s\nBytes: %d\n", subreddit, i+1, exportPath, n)
+			}()
+
+			wg.Wait()
 		}
 
 	}
@@ -169,13 +215,7 @@ func getSubRedditPosts(subreddit, category string, limit int, exportComments boo
 }
 
 func saveDataToFile(path, filename string, permission fs.FileMode) *os.File {
-
-	// fmt.Printf("path : %v\n", path)
-	// fmt.Printf("filename : %v\n", filename)
-
-	// fmt.Printf("File path : %v", filepath.Join(".", path, filename))
-	HandleError(os.Mkdir(path, permission))
-	fmt.Println("here")
+	os.MkdirAll(path, permission)
 	file, err := os.Create(filepath.Join(path, filename))
 	HandleError(err)
 	return file
@@ -225,7 +265,7 @@ func main() {
 		HandleError(errors.New("the provided subreddit is either invalid or private"))
 	}
 	subredditInfo := getSubRedditInfo(subredditName)
-	subredditPostsInfo := getSubRedditPosts(subredditName, category, limit, exportComments)
+	subredditPostsInfo := getSubRedditPosts(subredditName, category, limit, exportComments, exportPath)
 	// fmt.Println(subredditInfo)
 
 	// todo get subreddit post comments
