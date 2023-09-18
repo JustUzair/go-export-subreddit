@@ -1,0 +1,79 @@
+{
+  "about": {
+    "data": {
+      "display_name": "golang",
+      "public_description": "Ask questions and post articles about the Go programming language and related tools, events etc.",
+      "header_title": "",
+      "subscribers": 217997,
+      "active_user_count": 606,
+      "icon_img": "",
+      "header_img": "https://b.thumbs.redditmedia.com/7BDtSXbohQaPFuaa6oCA5HtE53Flgld6rj3G7-TavDs.png"
+    }
+  },
+  "posts": {
+    "data": {
+      "children": [
+        {
+          "data": {
+            "id": "16ao61s",
+            "selftext": "This post will be stickied at the top of [r/golang](https://www.reddit.com/r/golang/) until the last week of September (more or less).\n\nPlease adhere to the following rules when posting:\n\n**Rules for individuals:**\n\n* Don't create top-level comments; those are for employers.\n* Feel free to reply to top-level comments with on-topic questions.\n* Meta-discussion should be reserved for the distinguished mod comment.\n\n**Rules for employers:**\n\n* To make a top-level comment you must be hiring directly, or a focused third party recruiter with **specific jobs with named companies** in hand. No recruiter fishing for contacts please.\n* The job must involve working with Go on a regular basis, even if not 100% of the time.\n* One top-level comment per employer. If you have multiple job openings, please consolidate their descriptions or mention them in replies to your own top-level comment.\n* Please base your comment on the following template:\n\n**COMPANY:** *\\[Company name; ideally link to your company's website or careers page.\\]*\n\n**TYPE:** *\\[Full time, part time, internship, contract, etc.\\]*\n\n**DESCRIPTION:** *\\[What does your team/company do, and what are you using Go for? How much experience are you seeking and what seniority levels are you hiring for? The more details the better.\\]*\n\n**LOCATION:** *\\[Where are your office or offices located? If your workplace language isn't English-speaking, please specify it.\\]*\n\n**ESTIMATED COMPENSATION:** *\\[Please attempt to provide at least a rough expectation of wages/salary.If you can't state a number for compensation, omit this field. Do not just say \"competitive\". Everyone says their compensation is \"competitive\".If you are listing several positions in the \"Description\" field above, then feel free to include this information inline above, and put \"See above\" in this field.If compensation is expected to be offset by other benefits, then please include that information here as well.\\]*\n\n**REMOTE:** *\\[Do you offer the option of working remotely? If so, do you require employees to live in certain areas or time zones?\\]*\n\n**VISA:** *\\[Does your company sponsor visas?\\]*\n\n**CONTACT:** *\\[How can someone get in touch with you?\\]*",
+            "author": "jerf",
+            "title": "Who's Hiring? - September 2023",
+            "subreddit_name_prefixed": "r/golang",
+            "ups": 17,
+            "created": 1693920210.0,
+            "num_comments": 16,
+            "url": "https://www.reddit.com/r/golang/comments/16ao61s/whos_hiring_september_2023/",
+            "permalink": "/r/golang/comments/16ao61s/whos_hiring_september_2023/",
+            "comments": null
+          }
+        },
+        {
+          "data": {
+            "id": "16lvsqj",
+            "selftext": "I currently have to read from a MongoDB instance and had to find out that there are lots of data inconsistencies.  \nNot a nice situation and in the long term we have to clean it up and fix the \"producers\" (which are written in PHP). But for the moment I sadly have to deal with it.\n\nExample: a document contains a field `tags` which SHOULD look like this:\n```json\n{\n    \"tags\": [\n        0: {...},\n        1: {...},\n        2: {...}\n    ]\n}\n```\n\nAnd I read that into:\n```json\ntype MyDocument struct {\n    Tags []Tag `bson:\"tags\"`\n}\n```\n\nA former PHP dev used array operations that remove array elements by key while keeping the remaining keys, so naturally, when JSON encoded, `tags` are converted from array to object. Result is that in some documents we see this instead:\n\n```json  \n{  \n    \"tags\": {         \u0026lt;- tags is now an object\n        0: {...},     \u0026lt;- because the key '1' is missing\n        2: {...}  \n    }  \n}  \n```\n\nFurthermore, `tags` can sometimes be missing, can be `null` and also can be an empty JSON object `{}`.\n\nSo when the go mongodb driver unmarshalls the data into my strict struct, it fails.\n\n**Question:** Is there any better possibility than setting the type of `tags` in my struct to `interface{}` and type switching later on?",
+            "author": "tsdtsdtsd",
+            "title": "Dealing with inconsistent MongoDB data in Go",
+            "subreddit_name_prefixed": "r/golang",
+            "ups": 7,
+            "created": 1695044209.0,
+            "num_comments": 11,
+            "url": "https://www.reddit.com/r/golang/comments/16lvsqj/dealing_with_inconsistent_mongodb_data_in_go/",
+            "permalink": "/r/golang/comments/16lvsqj/dealing_with_inconsistent_mongodb_data_in_go/",
+            "comments": null
+          }
+        },
+        {
+          "data": {
+            "id": "16lx3tj",
+            "selftext": "I am currently reading Devops for The Desperate and Kubernetes Design Patterns\n\nWhat else should I read before I could say  that I am a golang developer who knows docker and kubernetes and looking for an internship?",
+            "author": "khaledmam",
+            "title": "What resources are required for a golang developer to say that he \"knows\" kubernetes?",
+            "subreddit_name_prefixed": "r/golang",
+            "ups": 4,
+            "created": 1695047372.0,
+            "num_comments": 17,
+            "url": "https://www.reddit.com/r/golang/comments/16lx3tj/what_resources_are_required_for_a_golang/",
+            "permalink": "/r/golang/comments/16lx3tj/what_resources_are_required_for_a_golang/",
+            "comments": null
+          }
+        },
+        {
+          "data": {
+            "id": "16lsmat",
+            "selftext": "Hello dear Go developers,  \nI'm trying to understand the inner workings of slices.  \nI studied the [Slices blog post.](https://go.dev/blog/slices-intro).  \nBut I would like to be enlightened on the subject of memory allocation when slicing an existing slice.  \n\n\nIn my use case, I want to remove the first element of the slice, and add an element at the end of the slice. This is very basically a queue pattern.   \n(Note : I know I could do a circular/ring buffer method to implement this kind of use case, or even with a buffered channel. But the point here is to understand memory allocation for slices)   \n\n\n    func main() {\n    var a = make([]int, 0, 2)\n    a = append(a, []int{1, 2}...)\n    fmt.Println(\u0026amp;a[0], len(a), cap(a))\n\n    for {\n        a = a[1:]\n        fmt.Println(\u0026amp;a[0], len(a), cap(a))\n        a = append(a, 2)\n        fmt.Println(\u0026amp;a[0], len(a), cap(a))\n        time.Sleep(time.Second * 1)\n    }\n}\n\n/*\n    0x1400000e0c0 2 2\n\n    0x1400000e0c8 1 1\n    0x1400000e0e0 2 2\n    ------------\n    0x1400000e0e8 1 1\n    0x1400000e0f0 2 2\n    ------------\n    0x1400000e0f8 1 1\n    0x1400000e100 2 2\n    ------------\n    0x1400000e108 1 1\n    0x1400000e110 2 2\n    ------------\n    ( ... )\n*/\n\n  \nWhat I expected was to always have a slice that kept the same initialized capacity (=2) .  \nBecause in the end by removing an element before adding an element, I never exceed the capacity set at initialization.  \nBut on the one hand a = a\\[1:\\] performs a new allocation of a slice, with a new len and cap, which generates pressure on the GC...  \nBut on the other hand, my question is : does the underlying array associated with the slice continue to grow because of the append? Doesn't all this risk leading to a memory leak?  \n\n\nThank you in advance ! \n\n\u0026amp;#x200B;",
+            "author": "simbapk",
+            "title": "Does this use case could create a memory leak ?",
+            "subreddit_name_prefixed": "r/golang",
+            "ups": 8,
+            "created": 1695035517.0,
+            "num_comments": 7,
+            "url": "https://www.reddit.com/r/golang/comments/16lsmat/does_this_use_case_could_create_a_memory_leak/",
+            "permalink": "/r/golang/comments/16lsmat/does_this_use_case_could_create_a_memory_leak/",
+            "comments": null
+          }
+        }
+      ]
+    }
+  }
+}

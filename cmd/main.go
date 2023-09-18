@@ -275,10 +275,10 @@ func getSubRedditPosts(subreddit, category string, limit int, exportComments boo
 						} `json:"children"`
 					} `json:"data"`
 				}
-
+				// defer res.Body.Close()
+				log.Println(res.Body)
 				err = json.NewDecoder(res.Body).Decode(&comments)
-				defer res.Body.Close()
-				log.Println("here comments")
+				// log.Println("here comments")
 				responseData.Data.Children[i].Data.Comments = append(responseData.Data.Children[i].Data.Comments, comments)
 				HandleError(err)
 
