@@ -9,18 +9,78 @@ import (
 	"io/fs"
 	"log"
 	"net/http"
+	"net/smtp"
 	"os"
 	"path/filepath"
 	"regexp"
 	"sync"
 	"time"
+
+	"github.com/joho/godotenv"
+	"github.com/jordan-wright/email"
 )
 
 var wg sync.WaitGroup
 
+const (
+	smtpAuthAddress   = "smtp.gmail.com"
+	smtpServerAddress = "smtp.gmail.com:587"
+)
+
+type EmailSender interface {
+	SendEmail(
+		subject string,
+		content string,
+		to []string,
+		cc []string,
+		bcc []string,
+		attachFiles []string,
+	) error
+}
+type GmailSender struct {
+	name                string
+	senderEmail         string
+	senderEmailPassword string
+}
+
 type ExportData struct {
 	*SubredditAboutData `json:"about"`
 	*SubredditPostsData `json:"posts"`
+}
+
+func NewGmailSender(name, senderEmail, senderPassword string) EmailSender {
+	return &GmailSender{
+		name:                name,
+		senderEmail:         senderEmail,
+		senderEmailPassword: senderPassword,
+	}
+}
+
+func (sender *GmailSender) SendEmail(
+	subject string,
+	content string,
+	to []string,
+	cc []string,
+	bcc []string,
+	attachFiles []string,
+) error {
+	e := email.NewEmail()
+	e.From = fmt.Sprintf("%s <%s>", sender.name, sender.senderEmail)
+	e.Subject = subject
+	e.HTML = []byte(content)
+	e.To = to
+	e.Cc = cc
+	e.Bcc = bcc
+
+	for _, f := range attachFiles {
+		_, err := e.AttachFile(f)
+		if err != nil {
+			HandleError(err)
+		}
+	}
+
+	smtpAuth := smtp.PlainAuth("", sender.senderEmail, sender.senderEmailPassword, smtpAuthAddress)
+	return e.Send(smtpServerAddress, smtpAuth)
 }
 
 type SubredditAboutData struct {
@@ -96,6 +156,9 @@ func validateCMDFlags(
 	if exportToFile && sendEmail {
 		sendEmail = true
 		exportToFile = false
+		if filename != "" {
+			filename = ""
+		}
 	}
 	if res := isValidCategory(category); !res {
 		return errors.New("category should be one of the following : new, top, hot, controversial or rising")
@@ -134,7 +197,6 @@ func getSubRedditInfo(subreddit string) *SubredditAboutData {
 	var responseData *SubredditAboutData
 	req, err := http.NewRequest("GET", subredditUrl, nil)
 	HandleError(err)
-
 	req.Header.Set("authority", "www.reddit.com")
 	req.Header.Set("pragma", "no-cache")
 	req.Header.Set("cache-control", "no-cache")
@@ -185,10 +247,10 @@ func getSubRedditPosts(subreddit, category string, limit int, exportComments boo
 	HandleError(err)
 	if exportComments {
 		for i := range responseData.Data.Children {
-			wg.Add(1)
+			// wg.Add(1)
 			i := i
 			go func() {
-				defer wg.Done()
+				// defer wg.Done()
 				permalink := responseData.Data.Children[i].Data.Permalink
 				commentsURL := fmt.Sprintf("http://reddit.com%v.json", permalink)
 				log.Println(commentsURL)
@@ -226,7 +288,7 @@ func getSubRedditPosts(subreddit, category string, limit int, exportComments boo
 
 			}()
 
-			wg.Wait()
+			// wg.Wait()
 		}
 
 	}
@@ -240,6 +302,21 @@ func saveDataToFile(path, filename string, permission fs.FileMode) *os.File {
 	return file
 }
 func main() {
+	err := godotenv.Load("config.env")
+	HandleError(err)
+
+	senderEmail := os.Getenv("SENDER_EMAIL")
+	if senderEmail == "" {
+		HandleError(errors.New("email is required, please add one to config.env file in root directory of the project"))
+	}
+	senderEmailPassword := os.Getenv("SENDER_PASSWORD")
+	if senderEmailPassword == "" {
+		HandleError(errors.New("password is required, get yours from myaccount.google.com/apppasswords and add it to config.env file in root directory of the project"))
+	}
+	senderName := os.Getenv("SENDER_NAME")
+	if senderName == "" {
+		senderName = "JustUzair"
+	}
 	var subredditPostsInfo *SubredditPostsData
 
 	var subredditName string
@@ -296,16 +373,32 @@ func main() {
 
 	jsonData, err := json.MarshalIndent(exportData, "", "  ")
 	HandleError(err)
-	if exportToFile && filename != "" {
-		file := saveDataToFile(exportPath, filename, 0777)
+	// if sendEmail || (exportToFile && filename != "") {
+	if sendEmail {
+		file := saveDataToFile(exportPath, "Data.json", 0777)
 		defer file.Close()
 
-		n, err := io.WriteString(file, string(jsonData))
+		_, err := io.WriteString(file, string(jsonData))
 		HandleError(err)
-		fmt.Printf("Saved data for subreddit %s to path %s\nBytes: %d\n", subredditName, exportPath, n)
+		// fmt.Printf("Saved data for subreddit %s to path %s\nBytes: %d\n", subredditName, exportPath, n)
+		sender := NewGmailSender(senderName, senderEmail, senderEmailPassword)
+		subject := fmt.Sprintf("Your exported data for r/%s", subredditName)
+		content := fmt.Sprintf("Please find your data attached with this email and thanks for using our app\n Regards,\n - %s", senderName)
+		to := []string{email} // email to send data to, receiver's email
+
+		attachFiles := []string{filepath.Join(exportPath, "Data.json")}
+		err = sender.SendEmail(subject, content, to, nil, nil, attachFiles)
+		HandleError(err)
+		log.Printf("Your data has been fetched and sent to you on your email...")
+		return
 	}
-	if sendEmail && email != "" {
-		// archive data
-		// send data to the email
-	}
+	file := saveDataToFile(exportPath, filename, 0777)
+	defer file.Close()
+
+	n, err := io.WriteString(file, string(jsonData))
+	HandleError(err)
+	fmt.Printf("Saved data for subreddit %s to path %s\nBytes: %d\n", subredditName, exportPath, n)
+
+	// }
+
 }
