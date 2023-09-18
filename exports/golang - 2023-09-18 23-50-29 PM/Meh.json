@@ -1,0 +1,207 @@
+{
+  "about": {
+    "data": {
+      "display_name": "golang",
+      "public_description": "Ask questions and post articles about the Go programming language and related tools, events etc.",
+      "header_title": "",
+      "subscribers": 217997,
+      "active_user_count": 570,
+      "icon_img": "",
+      "header_img": "https://b.thumbs.redditmedia.com/7BDtSXbohQaPFuaa6oCA5HtE53Flgld6rj3G7-TavDs.png"
+    }
+  },
+  "posts": {
+    "data": {
+      "children": [
+        {
+          "data": {
+            "id": "16ao61s",
+            "selftext": "This post will be stickied at the top of [r/golang](https://www.reddit.com/r/golang/) until the last week of September (more or less).\n\nPlease adhere to the following rules when posting:\n\n**Rules for individuals:**\n\n* Don't create top-level comments; those are for employers.\n* Feel free to reply to top-level comments with on-topic questions.\n* Meta-discussion should be reserved for the distinguished mod comment.\n\n**Rules for employers:**\n\n* To make a top-level comment you must be hiring directly, or a focused third party recruiter with **specific jobs with named companies** in hand. No recruiter fishing for contacts please.\n* The job must involve working with Go on a regular basis, even if not 100% of the time.\n* One top-level comment per employer. If you have multiple job openings, please consolidate their descriptions or mention them in replies to your own top-level comment.\n* Please base your comment on the following template:\n\n**COMPANY:** *\\[Company name; ideally link to your company's website or careers page.\\]*\n\n**TYPE:** *\\[Full time, part time, internship, contract, etc.\\]*\n\n**DESCRIPTION:** *\\[What does your team/company do, and what are you using Go for? How much experience are you seeking and what seniority levels are you hiring for? The more details the better.\\]*\n\n**LOCATION:** *\\[Where are your office or offices located? If your workplace language isn't English-speaking, please specify it.\\]*\n\n**ESTIMATED COMPENSATION:** *\\[Please attempt to provide at least a rough expectation of wages/salary.If you can't state a number for compensation, omit this field. Do not just say \"competitive\". Everyone says their compensation is \"competitive\".If you are listing several positions in the \"Description\" field above, then feel free to include this information inline above, and put \"See above\" in this field.If compensation is expected to be offset by other benefits, then please include that information here as well.\\]*\n\n**REMOTE:** *\\[Do you offer the option of working remotely? If so, do you require employees to live in certain areas or time zones?\\]*\n\n**VISA:** *\\[Does your company sponsor visas?\\]*\n\n**CONTACT:** *\\[How can someone get in touch with you?\\]*",
+            "author": "jerf",
+            "title": "Who's Hiring? - September 2023",
+            "subreddit_name_prefixed": "r/golang",
+            "ups": 15,
+            "created": 1693920210.0,
+            "num_comments": 16,
+            "url": "https://www.reddit.com/r/golang/comments/16ao61s/whos_hiring_september_2023/",
+            "permalink": "/r/golang/comments/16ao61s/whos_hiring_september_2023/",
+            "comments": [
+              [
+                {
+                  "data": {
+                    "children": [
+                      {
+                        "Data": {
+                          "permalink": "/r/golang/comments/16ao61s/whos_hiring_september_2023/",
+                          "body": "",
+                          "id": "16ao61s",
+                          "url": "https://www.reddit.com/r/golang/comments/16ao61s/whos_hiring_september_2023/"
+                        }
+                      }
+                    ]
+                  }
+                },
+                {
+                  "data": {
+                    "children": [
+                      {
+                        "Data": {
+                          "permalink": "/r/golang/comments/16ao61s/whos_hiring_september_2023/jz8ave5/",
+                          "body": "**META** Please post anything that isn't a job listing as a reply to this comment.\n\nAlso, I ask that you not downvote job submissions because of your opinion of the company.\n\n[August postings](https://www.reddit.com/r/golang/comments/15fidyp/whos_hiring_august_2023/).",
+                          "id": "jz8ave5",
+                          "url": ""
+                        }
+                      },
+                      {
+                        "Data": {
+                          "permalink": "/r/golang/comments/16ao61s/whos_hiring_september_2023/jz8y4jn/",
+                          "body": "**COMPANY:** [Prequel](https://www.prequel.co/)\n\n**TYPE:** Full time\n\n**DESCRIPTION:** Prequel is an API that makes it easy for B2B companies to sync data directly to their customer's data warehouse, on an ongoing basis.We're a tiny team of four engineers based in NYC. We're solving a number of hard technical problems that come with syncing tens of billions of rows of data every day with perfect data integrity: building reliable \u0026amp; scalable infrastructure, making data pipelines manageable without domain expertise, and creating a UX that abstracts out the underlying complexity to let the user share or receive data. We're powering this feature at companies like LogRocket, Modern Treasury, Postscript, and Metronome.\n\nOur stack is primarily K8s/Postgres/DuckDB/Golang/React/Typsecript and we support deployments in both our public cloud as well as our customers' clouds. Due to the nature of the product, we work with nearly every data warehouse product and most of the popular RDBMSs.\n\nWe're looking for a full stack engineer who can run the gamut from CI to UI. If you are interested in scaling infrastructure, distributed systems, developer tools, or relational databases, we have a lot of greenfield projects in these domains. We want someone who can humbly, but effectively, help us keep pushing our level of engineering excellence. We're open to those who don't already know our stack, but have the talent and drive to learn.\n\n**ESTIMATED COMPENSATION:**\\- Salary range for this band is $150K to $180K- Full healthcare benefits (medical, dental, vision), modern parental leave policies, and 401(k)- Perks including CitiBike membership \u0026amp; stipend for gym membership or art classes- Company culture focused on curiosity, learning, mentorship, and ownership\n\n**REMOTE:** No, NYC only\n\n**VISA:** Yes to [TN visa](https://travel.state.gov/content/travel/en/us-visas/employment/visas-canadian-mexican-nafta-professional-workers.html)**,** otherwise, Prequel does not sponsor visas at this time\n\n**CONTACT:**  To apply -- email [jobs@prequel.co](mailto:jobs@prequel.co) and include \\[Reddit\\] in the subject line",
+                          "id": "jz8y4jn",
+                          "url": ""
+                        }
+                      },
+                      {
+                        "Data": {
+                          "permalink": "/r/golang/comments/16ao61s/whos_hiring_september_2023/jzjejrc/",
+                          "body": "**COMPANY**: [Integrate](https://www.linkedin.com/company/integrate-program-logistics) and [Job Posting](https://jobs.gusto.com/postings/integrate-space-corporation-senior-full-stack-engineer-524afb85-40b7-44ae-b44c-9f4e57b34c85)\n\n**TYPE**: Full Time\n\n**DESCRIPTION**: Integrate is building program management software for the world’s most ambitious machines. Our core application focuses on cross-organizational collaboration, program management, and requirements tracking and is helping people get their products to market more simply and efficiently. We're looking for an experienced Golang developer who's not allergic to JavaScript (React). Our backend portions of our application (API and microservices) are written in Golang and this candidate would ideally be comfortable owning portions of this stack.\n\n**LOCATION**: US Remote / Seattle\n\n**ESTIMATED COMPENSATION**: $120,000 - $140,000, range negotiable and significant equity stake is available on top of base pay. \n\n**REMOTE**: yes, must be within the United States\n\n**VISA**: no\n\n**CONTACT**: Apply via the Job Posting link above",
+                          "id": "jzjejrc",
+                          "url": ""
+                        }
+                      },
+                      {
+                        "Data": {
+                          "permalink": "/r/golang/comments/16ao61s/whos_hiring_september_2023/jzkh60y/",
+                          "body": "COMPANY: [MedBridge](https://recruiting.paylocity.com/recruiting/jobs/All/235886f5-63d7-4b56-883a-0fbad71bff8b/MedBridge-Inc)  \nTYPE: Full time  \nDESCRIPTION: MedBridge is a dynamic software company working with the country’s largest healthcare providers to build technology solutions helping patients get better faster, while decreasing the overall cost of care.   \nLOCATION: Our Engineering team is growing and looking for a Software Engineer II \u0026amp; III to join us! We hire in the following states: AZ, CO, FL, IL, MA, MI, MN, NC, NY, OR, PA, TX, UT, VA, WA, WI, TN, KS.  \nESTIMATED COMPENSATION: \n\nSalary range for Software Engineer II is $110K to $140K\n\nSalary range for Software Engineer III is $130K to $175K\n\nFull healthcare benefits (medical, dental, vision), modern parental leave policies, and 401(k), stipend towards continuing education  \nREMOTE: completely remote  \nVISA:We donot sponsor visas or work with any C2C  \nCONTACT: please apply directly on the career's page.",
+                          "id": "jzkh60y",
+                          "url": ""
+                        }
+                      },
+                      {
+                        "Data": {
+                          "permalink": "/r/golang/comments/16ao61s/whos_hiring_september_2023/jzv0u9n/",
+                          "body": "**COMPANY:** [Passport, Inc](https://www.passportinc.com/)\n\n**TYPE:** Full Time\n\n**DESCRIPTION:** Passport, Inc provides a platform for parking and mobility. The role is for a backfill for myself as a [Software Engineering Manager, Mobile](https://workforcenow.adp.com/mascsr/default/mdf/recruitment/recruitment.html?cid=defb40d0-f2ac-46a8-a5c8-84f563616cc8\u0026amp;ccId=19000101_000001\u0026amp;jobId=474315\u0026amp;lang=en_US). That by itself is mobile development and not directly related to Go. However, I started an initiative to write a business logic layer for our mobile applications in Go using Go Mobile and update our native apps to use that library while using Swift UI and Jetpack Compose for UI over top of the Go Mobile library. The apps themselves are a mature project, but building a platform-agnostic library with Go is a greenfield effort. This role would be able to champion the project by providing technical expertise, guidance, and engineering. The team is eager but new to Go, so defining how the library goes about what it needs to do would be largely up to this person.\n\nThe role is an Engineering Manager position, and as such this person would be the quarterback of the team. You would work with product managers, solution architects, business analysts, and product owners to define and break down work for the team. While we are just starting to look at using Go, this role has the opportunity to make it a more central focus for themselves and the rest of the mobile team. Passport does expect Engineering Managers to be able to be hands on as time permits.\n\n**LOCATION:** Charlotte, NC\n\n**REMOTE:** Yes. As far as I know, there are no time zone requirements, but I believe current employees are either in the USA or India.\n\n**VISA:** Passport does not sponsor visas at this time\n\n**CONTACT:** Please apply directly on the [careers page](https://workforcenow.adp.com/mascsr/default/mdf/recruitment/recruitment.html?cid=defb40d0-f2ac-46a8-a5c8-84f563616cc8\u0026amp;ccId=19000101_000001\u0026amp;jobId=474315\u0026amp;lang=en_US)",
+                          "id": "jzv0u9n",
+                          "url": ""
+                        }
+                      },
+                      {
+                        "Data": {
+                          "permalink": "/r/golang/comments/16ao61s/whos_hiring_september_2023/k0g8esn/",
+                          "body": "**Company**: Stream. [https://getstream.io/](https://getstream.io/)\n\n**Type**: Full-time (EU)\n\n**Description**: Stream is an API for building activity feeds, chat and live video. We do this for thousands of apps and over a billion end users. 4-5 years ago we switched from Python to Go and everything (other than ML) runs on Go, RocksDB, Raft, Redis, and CockroachDB/Postgres.  \n\n\nA few highlights:  \n\\* High traffic environment, focus on scalability  \n\\* 3 different products, each with their unique challenges. Activity feeds is very storage intensive with a fanout on read + fanout on write implementation. Video requires efficient Go code to ensure low CPU usage and low latency for video. Chat requires a good understanding of databases and denormalizing data, with some parts of chat like unread counts being storage-intensive  \n\\* At the moment we're hiring staff engineers in the EU remote as well as Amsterdam in the office.   \n\\* Candidates coming from a different language/background will also be considered. IE it's ok if you have only a bit of Go experience, but have been a backend staff level engineer or higher for years  \n\n\nEngineers at Stream tend to work very independently. More customer and product ownership compared to many other companies (our customers are engineers and product owners, so naturally engineers have more influence)  \n\n\n**Compensation**: Depends on experience, $100k-$140k  \n\n\n**How to learn more**: https://getstream.io/team/",
+                          "id": "k0g8esn",
+                          "url": ""
+                        }
+                      },
+                      {
+                        "Data": {
+                          "permalink": "/r/golang/comments/16ao61s/whos_hiring_september_2023/k12zahw/",
+                          "body": "**COMPANY:** [Saab Ltd](https://www.saab.com/markets/uae)\n\n**TYPE:** Full time\n\n**DESCRIPTION:** We are developing a private, cloud-based data lake solution within our Massive Data Fusion group. The core of our product is written in Go with most of our plugins written in Python. We are looking for Senior Golang Engineers to help improve the performance and resiliency of our product. If you have deployed software written in Go to a production-grade Kubernetes cluster and you have an interest in databases, geographical information systems and/or security best practices, then this role might be for you.\n\n**LOCATION:** Abu Dhabi, UAE\n\n**REMOTE:** No\n\n**VISA:** Yes\n\n**CONTACT:** Please apply via the [job posting](https://www.saab.com/career/job-opportunities/golang-engineer---massive-data-fusion)",
+                          "id": "k12zahw",
+                          "url": ""
+                        }
+                      }
+                    ]
+                  }
+                }
+              ]
+            ]
+          }
+        },
+        {
+          "data": {
+            "id": "16lvsqj",
+            "selftext": "I currently have to read from a MongoDB instance and had to find out that there are lots of data inconsistencies.  \nNot a nice situation and in the long term we have to clean it up and fix the \"producers\" (which are written in PHP). But for the moment I sadly have to deal with it.\n\nExample: a document contains a field `tags` which SHOULD look like this:\n```json\n{\n    \"tags\": [\n        0: {...},\n        1: {...},\n        2: {...}\n    ]\n}\n```\n\nAnd I read that into:\n```json\ntype MyDocument struct {\n    Tags []Tag `bson:\"tags\"`\n}\n```\n\nA former PHP dev used array operations that remove array elements by key while keeping the remaining keys, so naturally, when JSON encoded, `tags` are converted from array to object. Result is that in some documents we see this instead:\n\n```json  \n{  \n    \"tags\": {         \u0026lt;- tags is now an object\n        0: {...},     \u0026lt;- because the key '1' is missing\n        2: {...}  \n    }  \n}  \n```\n\nFurthermore, `tags` can sometimes be missing, can be `null` and also can be an empty JSON object `{}`.\n\nSo when the go mongodb driver unmarshalls the data into my strict struct, it fails.\n\n**Question:** Is there any better possibility than setting the type of `tags` in my struct to `interface{}` and type switching later on?",
+            "author": "tsdtsdtsd",
+            "title": "Dealing with inconsistent MongoDB data in Go",
+            "subreddit_name_prefixed": "r/golang",
+            "ups": 5,
+            "created": 1695044209.0,
+            "num_comments": 11,
+            "url": "https://www.reddit.com/r/golang/comments/16lvsqj/dealing_with_inconsistent_mongodb_data_in_go/",
+            "permalink": "/r/golang/comments/16lvsqj/dealing_with_inconsistent_mongodb_data_in_go/",
+            "comments": [
+              [
+                {
+                  "data": {
+                    "children": [
+                      {
+                        "Data": {
+                          "permalink": "/r/golang/comments/16lvsqj/dealing_with_inconsistent_mongodb_data_in_go/",
+                          "body": "",
+                          "id": "16lvsqj",
+                          "url": "https://www.reddit.com/r/golang/comments/16lvsqj/dealing_with_inconsistent_mongodb_data_in_go/"
+                        }
+                      }
+                    ]
+                  }
+                },
+                {
+                  "data": {
+                    "children": [
+                      {
+                        "Data": {
+                          "permalink": "/r/golang/comments/16lvsqj/dealing_with_inconsistent_mongodb_data_in_go/k14y58y/",
+                          "body": "I do not have a Mongo db at hand, but you should be able to do something with the [Unmarshaler](https://pkg.go.dev/go.mongodb.org/mongo-driver@v1.12.1/bson#Unmarshaler) interface. I can [show you how I'd do this in JSON](https://go.dev/play/p/2kh0p0qD3NN), but I do not know exactly what pops out of the bson.Unmarshaler interface. Probably something similar, though.\n\nThe general pattern of implementing an unmarshaller that experimentally unmarshals into a few different formats using other, more primitive types, is a powerful technique for handling this sort of thing.",
+                          "id": "k14y58y",
+                          "url": ""
+                        }
+                      },
+                      {
+                        "Data": {
+                          "permalink": "/r/golang/comments/16lvsqj/dealing_with_inconsistent_mongodb_data_in_go/k14y7ed/",
+                          "body": "You can sort of implement union types by having custom types with unmarshallers that guess the source data format from bytes (or, more frequently in our case, from the value of another field). We (ab)use this to make some Amazon Ads API endpoints work in Go.",
+                          "id": "k14y7ed",
+                          "url": ""
+                        }
+                      },
+                      {
+                        "Data": {
+                          "permalink": "/r/golang/comments/16lvsqj/dealing_with_inconsistent_mongodb_data_in_go/k14jm43/",
+                          "body": "I don't think so. This is a situation that would benefit from union types such as being available in TS, but we don't really have that in Go.",
+                          "id": "k14jm43",
+                          "url": ""
+                        }
+                      },
+                      {
+                        "Data": {
+                          "permalink": "/r/golang/comments/16lvsqj/dealing_with_inconsistent_mongodb_data_in_go/k14n94y/",
+                          "body": "Look into Go Generics, that should help you achieve what you want.",
+                          "id": "k14n94y",
+                          "url": ""
+                        }
+                      },
+                      {
+                        "Data": {
+                          "permalink": "/r/golang/comments/16lvsqj/dealing_with_inconsistent_mongodb_data_in_go/k14w5an/",
+                          "body": "Write you're own parser line by line",
+                          "id": "k14w5an",
+                          "url": ""
+                        }
+                      },
+                      {
+                        "Data": {
+                          "permalink": "/r/golang/comments/16lvsqj/dealing_with_inconsistent_mongodb_data_in_go/k14wp4v/",
+                          "body": "Would be much easier to create a cleanup and backfill script on the PHP side to handle this.",
+                          "id": "k14wp4v",
+                          "url": ""
+                        }
+                      },
+                      {
+                        "Data": {
+                          "permalink": "/r/golang/comments/16lvsqj/dealing_with_inconsistent_mongodb_data_in_go/k1512lj/",
+                          "body": "You can create a new type that implements [bson.ValueUnmarshaller](https://github.com/mongodb/mongo-go-driver/blob/59f7519e8b7c4e549a39ce769b8536f2bdfd0446/bson/unmarshal.go#L37) and format the data the way you expect it.  \nHere's a generic implementation:\n\n\ttype MaybeArray[T any] []T\n\t\n\tfunc (a *MaybeArray[T]) UnmarshalBSONValue(typ bsontype.Type, b []byte) error {\n\t\trv := bson.RawValue{Type: typ, Value: b}\n\t\tswitch typ {\n\t\tcase bsontype.Array:\n\t\t\tif err := rv.Unmarshal((*[]T)(a)); err != nil { // prevents infinite recursion - do not unmarshal into MaybeArray type here\n\t\t\t\treturn err\n\t\t\t}\n\t\t\treturn nil\n\t\tcase bsontype.EmbeddedDocument:\n\t\t\tvar values map[string]T\n\t\t\tif err := rv.Unmarshal(\u0026amp;values); err != nil {\n\t\t\t\treturn err\n\t\t\t}\n\t\t\t*a = make([]T, 0, len(values))\n\t\t\tfor _, v := range values {\n\t\t\t\t*a = append(*a, v)\n\t\t\t}\n\t\t\treturn nil\n\t\tcase bsontype.Null:\n\t\t\t*a = nil\n\t\t\treturn nil\n\t\tdefault:\n\t\t\treturn fmt.Errorf(\"unsupported %T field type: %s\", a, typ)\n\t\t}\n\t}\n\nYou can use it as:\n\n    type Doc struct {\n        Tags MaybeArray[Tag] `bson:\"tags\"`\n    }\n\nand it will always store it in an underlying array in memory, even if the data come in as objects on the wire during decoding.",
+                          "id": "k1512lj",
+                          "url": ""
+                        }
+                      }
+                    ]
+                  }
+                }
+              ]
+            ]
+          }
+        }
+      ]
+    }
+  }
+}

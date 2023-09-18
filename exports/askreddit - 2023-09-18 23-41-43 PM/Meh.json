@@ -1,0 +1,34 @@
+{
+  "about": {
+    "data": {
+      "display_name": "AskReddit",
+      "public_description": "r/AskReddit is the place to ask and answer thought-provoking questions.",
+      "header_title": "Ass Credit",
+      "subscribers": 43051074,
+      "active_user_count": 74134,
+      "icon_img": "https://b.thumbs.redditmedia.com/LSHrisQApf1H5F8nWShTx3_KjTOMc3R_ss3kx3XAyXQ.png",
+      "header_img": "https://a.thumbs.redditmedia.com/IrfPJGuWzi_ewrDTBlnULeZsJYGz81hsSQoQJyw6LD8.png"
+    }
+  },
+  "posts": {
+    "data": {
+      "children": [
+        {
+          "data": {
+            "id": "16lrqw8",
+            "selftext": "",
+            "author": "sleepydogg_45",
+            "title": "What are some really bad common life choices?",
+            "subreddit_name_prefixed": "r/AskReddit",
+            "ups": 3363,
+            "created": 1695032730.0,
+            "num_comments": 3109,
+            "url": "https://www.reddit.com/r/AskReddit/comments/16lrqw8/what_are_some_really_bad_common_life_choices/",
+            "permalink": "/r/AskReddit/comments/16lrqw8/what_are_some_really_bad_common_life_choices/",
+            "comments": null
+          }
+        }
+      ]
+    }
+  }
+}

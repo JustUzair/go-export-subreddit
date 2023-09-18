@@ -246,19 +246,22 @@ func getSubRedditPosts(subreddit, category string, limit int, exportComments boo
 	err = json.NewDecoder(res.Body).Decode(&responseData)
 	HandleError(err)
 	if exportComments {
-		for i := range responseData.Data.Children {
-			// wg.Add(1)
+		// log.Println("here export comments")
+		for i := 0; i < len(responseData.Data.Children); i++ {
+			wg.Add(1)
 			i := i
 			go func() {
-				// defer wg.Done()
+				defer wg.Done()
 				permalink := responseData.Data.Children[i].Data.Permalink
+				if permalink == "" {
+					return
+				}
 				commentsURL := fmt.Sprintf("http://reddit.com%v.json", permalink)
 				log.Println(commentsURL)
 				req, err := http.NewRequest("GET", commentsURL, nil)
 				HandleError(err)
 				res, err := client.Do(req)
 				HandleError(err)
-				defer res.Body.Close()
 				// var comments []interface{}
 				var comments []struct {
 					Data struct {
@@ -272,7 +275,10 @@ func getSubRedditPosts(subreddit, category string, limit int, exportComments boo
 						} `json:"children"`
 					} `json:"data"`
 				}
+
 				err = json.NewDecoder(res.Body).Decode(&comments)
+				defer res.Body.Close()
+				log.Println("here comments")
 				responseData.Data.Children[i].Data.Comments = append(responseData.Data.Children[i].Data.Comments, comments)
 				HandleError(err)
 
@@ -288,7 +294,7 @@ func getSubRedditPosts(subreddit, category string, limit int, exportComments boo
 
 			}()
 
-			// wg.Wait()
+			wg.Wait()
 		}
 
 	}
@@ -359,7 +365,7 @@ func main() {
 
 	validSubR := validateSubreddit(subredditName)
 	if !validSubR {
-		HandleError(errors.New("the provided subreddit is either invalid or private"))
+		HandleError(errors.New("the provided subreddit is either invalid or private or has reached maximum requests limits"))
 	}
 	subredditInfo := getSubRedditInfo(subredditName)
 	if exportPosts {
@@ -373,32 +379,32 @@ func main() {
 
 	jsonData, err := json.MarshalIndent(exportData, "", "  ")
 	HandleError(err)
-	// if sendEmail || (exportToFile && filename != "") {
-	if sendEmail {
-		file := saveDataToFile(exportPath, "Data.json", 0777)
+	if sendEmail || (exportToFile && filename != "") {
+		if sendEmail {
+			file := saveDataToFile(exportPath, "Data.json", 0777)
+			defer file.Close()
+
+			_, err := io.WriteString(file, string(jsonData))
+			HandleError(err)
+			// fmt.Printf("Saved data for subreddit %s to path %s\nBytes: %d\n", subredditName, exportPath, n)
+			sender := NewGmailSender(senderName, senderEmail, senderEmailPassword)
+			subject := fmt.Sprintf("Your exported data for r/%s", subredditName)
+			content := fmt.Sprintf("Please find your data attached with this email and thanks for using our app\n Regards,\n - %s", senderName)
+			to := []string{email} // email to send data to, receiver's email
+
+			attachFiles := []string{filepath.Join(exportPath, "Data.json")}
+			err = sender.SendEmail(subject, content, to, nil, nil, attachFiles)
+			HandleError(err)
+			log.Printf("Your data has been fetched and sent to you on your email...")
+			return
+		}
+		file := saveDataToFile(exportPath, filename, 0777)
 		defer file.Close()
 
-		_, err := io.WriteString(file, string(jsonData))
+		n, err := io.WriteString(file, string(jsonData))
 		HandleError(err)
-		// fmt.Printf("Saved data for subreddit %s to path %s\nBytes: %d\n", subredditName, exportPath, n)
-		sender := NewGmailSender(senderName, senderEmail, senderEmailPassword)
-		subject := fmt.Sprintf("Your exported data for r/%s", subredditName)
-		content := fmt.Sprintf("Please find your data attached with this email and thanks for using our app\n Regards,\n - %s", senderName)
-		to := []string{email} // email to send data to, receiver's email
+		fmt.Printf("Saved data for subreddit %s to path %s\nBytes: %d\n", subredditName, exportPath, n)
 
-		attachFiles := []string{filepath.Join(exportPath, "Data.json")}
-		err = sender.SendEmail(subject, content, to, nil, nil, attachFiles)
-		HandleError(err)
-		log.Printf("Your data has been fetched and sent to you on your email...")
-		return
 	}
-	file := saveDataToFile(exportPath, filename, 0777)
-	defer file.Close()
-
-	n, err := io.WriteString(file, string(jsonData))
-	HandleError(err)
-	fmt.Printf("Saved data for subreddit %s to path %s\nBytes: %d\n", subredditName, exportPath, n)
-
-	// }
 
 }
